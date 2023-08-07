@@ -35,7 +35,7 @@ contract Derent is AccessControl, Ownable{
 
     }
 
-    function setCars(uint _carNo, string memory _category, uint _tarif) external {
+    function setCars(uint256 _carNo, string memory _category, uint _tarif) external {
         require(hasRole(ADMIN_ROLE, _msgSender()), "Not Allowed");
         cars[_carNo].category = _category;
         cars[_carNo].tarif = _tarif;
@@ -53,8 +53,39 @@ contract Derent is AccessControl, Ownable{
 
     }
 
-    function payToRent() external payable {
-        
+    function payToRent(uint256 id_) external payable {
+        if(msg.value <=0) {
+            revert();
+        }
+        if(msg.value == 20) {
+            bookCarPremium(id_);
+        }
+        if(msg.value == 10) {
+            bookCarStandard(id_);
+        }
+        if(msg.value == 5) {
+            bookCarBasic(id_);
+        }
+    }
+    
+    function bookCarPremium(uint256 id_ ) internal {
+        require(keccak256(bytes(cars[id_].category)) == keccak256(bytes("Premium")), "Car does not exist");
+        require(cars[id_].booked = false, "Already booked");
+        cars[id_].booked = true;
+        cars[id_].customerAddress = msg.sender;
     }
 
+    function bookCarStandard(uint256 id_) internal {
+        require(keccak256(bytes(cars[id_].category)) == keccak256(bytes("Standard")), "Car does not exist");
+        require(cars[id_].booked = false, "Already booked");
+        cars[id_].booked = true;
+        cars[id_].customerAddress = msg.sender;
+    }
+
+    function bookCarBasic(uint256 id_) internal {
+        require(keccak256(bytes(cars[id_].category)) == keccak256(bytes("Basic")), "Car does not exist");
+        require(cars[id_].booked = false, "Already booked");
+        cars[id_].booked = true;
+        cars[id_].customerAddress = msg.sender;
+    }
 }
