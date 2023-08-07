@@ -17,7 +17,7 @@ contract Derent is AccessControl, Ownable{
         bool booked;
     }
 
-    struct customer {
+    struct Customer {
         string name;
         string address_;
         uint256 customerIdNo;
@@ -27,7 +27,7 @@ contract Derent is AccessControl, Ownable{
     uint256 private noOfCars;
 
     mapping (uint256 => Car) public cars;
-    mapping(address => customer) public customers;
+    mapping(address => Customer) public customers;
 
     constructor() {
         _setupRole(DEFAULT_ADMIN_ROLE, _msgSender());
@@ -43,6 +43,18 @@ contract Derent is AccessControl, Ownable{
         cars[_carNo].reviewNo = 0;
         noOfCars++;
 
+    }
+
+    function setCustomer(address _addr, string memory _name, string memory _address) external {
+        customers[_addr].name = _name;
+        customers[_addr].address_ = _address;
+        customers[_addr].customerIdNo = custCount;
+        custCount++;
+
+    }
+
+    function payToRent() external payable {
+        
     }
 
 }
