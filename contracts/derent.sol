@@ -122,4 +122,22 @@ contract Derent is AccessControl, Ownable{
         cars[id_].review = ( rating_.add(cars[id_].review.mul(cars[id_].reviewNo)).div(cars[id_].reviewNo+1) );
         cars[id_].reviewNo++;
     }
+
+    function returnCarStandard(uint256 id_, uint256 rating_) external {
+        require(keccak256(bytes(cars[id_].category)) == keccak256(bytes("Standard")), "Car does not exist or is not Premium");
+        require(cars[id_].customerAddress == msg.sender, "This car have not be booked by you");
+        cars[id_].occupied = false;
+        cars[id_].booked = false;
+        cars[id_].review = ( rating_.add(cars[id_].review.mul(cars[id_].reviewNo)).div(cars[id_].reviewNo+1) );
+        cars[id_].reviewNo++;
+    }
+
+    function returnCarBasic(uint256 id_, uint256 rating_) external {
+        require(keccak256(bytes(cars[id_].category)) == keccak256(bytes("Basic")), "Car does not exist or is not Premium");
+        require(cars[id_].customerAddress == msg.sender, "This car have not be booked by you");
+        cars[id_].occupied = false;
+        cars[id_].booked = false;
+        cars[id_].review = ( rating_.add(cars[id_].review.mul(cars[id_].reviewNo)).div(cars[id_].reviewNo+1) );
+        cars[id_].reviewNo++;
+    }
 }
