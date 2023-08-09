@@ -19,12 +19,6 @@ contract Derent is AccessControl, Ownable{
         bool booked;
     }
 
-    struct Customer {
-        string name;
-        string address_;
-        uint256 customerIdNo;
-    }
-
     uint256 private custCount;
     uint256 private noOfCars;
     error ValueIsNullOrNegative();
@@ -46,14 +40,6 @@ contract Derent is AccessControl, Ownable{
         cars[_carNo].review = 0;
         cars[_carNo].reviewNo = 0;
         noOfCars++;
-
-    }
-
-    function setCustomer(address _addr, string memory _name, string memory _address) external {
-        customers[_addr].name = _name;
-        customers[_addr].address_ = _address;
-        customers[_addr].customerIdNo = custCount;
-        custCount++;
 
     }
 
